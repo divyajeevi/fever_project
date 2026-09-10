@@ -1,128 +1,1051 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FeverSense | Health check</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --ink: #142d3d;
-            --muted: #70818a;
-            --teal: #0d716d;
-            --teal-dark: #07514f;
-            --mint: #d7f0e9;
-            --orange: #ef855e;
-            --orange-soft: #ffe0d2;
-            --cream: #fbf8f3;
-            --line: #dce8e4;
-            --shadow: 0 24px 70px rgba(20, 66, 70, .13);
+
+```
+<title>FeverSense | Fever Prediction</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        font-family: "DM Sans", sans-serif;
+        color: #17343d;
+        background:
+            radial-gradient(circle at 10% 10%, #d9f3ec 0, transparent 28%),
+            radial-gradient(circle at 90% 20%, #ffe0d2 0, transparent 25%),
+            linear-gradient(135deg, #f5fbf8, #e9f4f1);
+    }
+
+    /* NAVBAR */
+
+    .navbar {
+        width: min(1150px, calc(100% - 40px));
+        margin: auto;
+        padding: 22px 0;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #07514f;
+    }
+
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 13px 13px 13px 5px;
+
+        color: white;
+        background: #0d716d;
+
+        font-size: 23px;
+        font-weight: bold;
+
+        box-shadow: 0 8px 20px rgba(13,113,109,.22);
+    }
+
+    .logout {
+        text-decoration: none;
+        color: #0d716d;
+
+        padding: 9px 17px;
+
+        border: 1px solid #c9e1dc;
+        border-radius: 10px;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        background: white;
+
+        transition: .2s;
+    }
+
+    .logout:hover {
+        color: white;
+        background: #0d716d;
+    }
+
+    /* MAIN */
+
+    .container {
+        width: min(1150px, calc(100% - 40px));
+        margin: 25px auto 60px;
+    }
+
+    .hero {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .badge {
+        display: inline-block;
+
+        padding: 7px 14px;
+
+        border-radius: 30px;
+
+        color: #0d716d;
+        background: #d9f2eb;
+
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    .hero h1 {
+        margin-top: 17px;
+
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(35px, 5vw, 58px);
+        line-height: 1.05;
+
+        color: #143642;
+        letter-spacing: -.05em;
+    }
+
+    .hero h1 span {
+        color: #0d716d;
+    }
+
+    .hero p {
+        max-width: 600px;
+        margin: 15px auto 0;
+
+        color: #71838a;
+
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    /* CARD */
+
+    .main-card {
+        display: grid;
+        grid-template-columns: .75fr 1.25fr;
+
+        overflow: hidden;
+
+        border: 1px solid rgba(255,255,255,.9);
+        border-radius: 28px;
+
+        background: rgba(255,255,255,.75);
+
+        box-shadow: 0 25px 70px rgba(20,66,70,.13);
+
+        backdrop-filter: blur(12px);
+    }
+
+    /* LEFT */
+
+    .info-panel {
+        position: relative;
+
+        padding: 50px;
+
+        color: white;
+        background: linear-gradient(145deg, #07514f, #0d716d);
+
+        overflow: hidden;
+    }
+
+    .info-panel::before {
+        content: "";
+
+        position: absolute;
+
+        width: 260px;
+        height: 260px;
+
+        right: -110px;
+        bottom: -110px;
+
+        border: 1px solid rgba(255,255,255,.15);
+
+        border-radius: 50%;
+
+        box-shadow:
+            0 0 0 30px rgba(255,255,255,.04),
+            0 0 0 60px rgba(255,255,255,.03);
+    }
+
+    .medical-icon {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border-radius: 20px;
+
+        background: rgba(255,255,255,.13);
+
+        font-size: 35px;
+
+        margin-bottom: 30px;
+    }
+
+    .info-panel h2 {
+        position: relative;
+
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 34px;
+
+        line-height: 1.1;
+
+        margin-bottom: 18px;
+    }
+
+    .info-panel p {
+        position: relative;
+
+        color: #c6e5df;
+
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .feature-list {
+        position: relative;
+
+        margin-top: 35px;
+
+        list-style: none;
+    }
+
+    .feature-list li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        margin-bottom: 17px;
+
+        color: #e1f1ee;
+
+        font-size: 13px;
+    }
+
+    .tick {
+        width: 25px;
+        height: 25px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #ef855e;
+
+        font-size: 13px;
+    }
+
+    /* FORM */
+
+    .form-panel {
+        padding: 48px;
+        background: rgba(255,255,255,.85);
+    }
+
+    .form-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        margin-bottom: 32px;
+    }
+
+    .form-title h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 27px;
+        color: #17343d;
+    }
+
+    .form-title p {
+        margin-top: 6px;
+
+        color: #7b8c92;
+
+        font-size: 13px;
+    }
+
+    .step {
+        padding: 7px 11px;
+
+        border-radius: 9px;
+
+        color: #0d716d;
+        background: #d9f2eb;
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    /* FIELD */
+
+    .field {
+        margin-bottom: 28px;
+    }
+
+    .field-title {
+        display: flex;
+        justify-content: space-between;
+
+        margin-bottom: 10px;
+    }
+
+    .field-title label,
+    .field-title span:first-child {
+        color: #17343d;
+
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .hint {
+        color: #89999e;
+
+        font-size: 10px;
+        font-weight: 600;
+
+        text-transform: uppercase;
+        letter-spacing: .07em;
+    }
+
+    /* TEMPERATURE */
+
+    .temperature-box {
+        display: flex;
+        align-items: center;
+
+        padding: 5px 17px;
+
+        border: 1px solid #dce8e4;
+        border-radius: 15px;
+
+        background: #fbf8f3;
+
+        transition: .2s;
+    }
+
+    .temperature-box:focus-within {
+        border-color: #0d716d;
+
+        box-shadow: 0 0 0 4px rgba(13,113,109,.09);
+    }
+
+    .temperature-box input {
+        width: 100%;
+
+        border: none;
+        outline: none;
+
+        padding: 13px 0;
+
+        color: #07514f;
+        background: transparent;
+
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 27px;
+        font-weight: 700;
+    }
+
+    .temperature-box span {
+        color: #7a8b90;
+        font-size: 14px;
+    }
+
+    /* SYMPTOMS */
+
+    .symptoms {
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 12px;
+    }
+
+    .symptom input {
+        display: none;
+    }
+
+    .symptom label {
+        min-height: 92px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        padding: 14px;
+
+        border: 1px solid #dce8e4;
+        border-radius: 15px;
+
+        color: #70818a;
+        background: white;
+
+        cursor: pointer;
+
+        transition: .2s;
+    }
+
+    .symptom label:hover {
+        transform: translateY(-2px);
+
+        border-color: #9ccfc2;
+
+        box-shadow: 0 7px 18px rgba(20,66,70,.07);
+    }
+
+    .symptom input:checked + label {
+        color: #17343d;
+
+        border-color: #0d716d;
+
+        background: #e0f4ee;
+
+        box-shadow: inset 0 0 0 1px #0d716d;
+    }
+
+    .symptom-icon {
+        color: #0d716d;
+        font-size: 22px;
+    }
+
+    .symptom-name {
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* BUTTON */
+
+    .predict-btn {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        padding: 16px;
+
+        border: none;
+        border-radius: 14px;
+
+        color: white;
+        background: #ef855e;
+
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        box-shadow: 0 12px 25px rgba(239,133,94,.25);
+
+        transition: .2s;
+    }
+
+    .predict-btn:hover {
+        background: #d9704e;
+
+        transform: translateY(-2px);
+    }
+
+    .predict-btn span {
+        font-size: 20px;
+    }
+
+    /* RESULT */
+
+    .result {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+
+        margin-top: 22px;
+        padding: 16px;
+
+        border-radius: 14px;
+
+        color: #07514f;
+        background: #eaf8f3;
+
+        border: 1px solid #b8ded1;
+
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .result.alert {
+        color: #a64736;
+        background: #fff1eb;
+        border-color: #f1c1af;
+    }
+
+    .result-icon {
+        width: 34px;
+        height: 34px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border-radius: 50%;
+
+        background: #c9eadf;
+
+        font-weight: bold;
+    }
+
+    .alert .result-icon {
+        background: #ffe0d2;
+    }
+
+    /* FOOTER */
+
+    .footer {
+        margin-top: 30px;
+
+        text-align: center;
+
+        color: #7b8c92;
+
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 850px) {
+
+        .main-card {
+            grid-template-columns: 1fr;
         }
 
-        * { box-sizing: border-box; }
-        body {
-            min-height: 100vh;
-            margin: 0;
-            color: var(--ink);
-            font-family: "DM Sans", sans-serif;
-            background: #e9f3ef;
-            background-image: linear-gradient(120deg, rgba(255,255,255,.82), transparent 47%), radial-gradient(circle at 90% 12%, #ffd7c4 0 8%, transparent 8.2%), radial-gradient(circle at 7% 88%, #b9dfd6 0 11%, transparent 11.2%);
+        .info-panel {
+            padding: 40px;
         }
 
-        .page { width: min(1160px, calc(100% - 40px)); margin: 0 auto; padding: 28px 0 45px; }
-        .nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-        .logo { display: flex; align-items: center; gap: 10px; font: 700 19px "Space Grotesk", sans-serif; letter-spacing: -.04em; }
-        .logo-mark { display: grid; place-items: center; width: 37px; height: 37px; border-radius: 12px 12px 12px 4px; color: white; background: var(--teal); font-size: 21px; box-shadow: 0 7px 18px rgba(13,113,109,.25); }
-        .privacy { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 600; }
-        .privacy-dot { width: 7px; height: 7px; border-radius: 50%; background: #54b890; }
-        .board { display: grid; grid-template-columns: .9fr 1.1fr; overflow: hidden; min-height: 620px; border: 1px solid rgba(255,255,255,.9); border-radius: 30px; background: rgba(255,255,255,.7); box-shadow: var(--shadow); backdrop-filter: blur(12px); }
-        .story { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(30px, 5vw, 65px); overflow: hidden; background: var(--teal-dark); color: white; }
-        .story::before, .story::after { position: absolute; border: 1px solid rgba(255,255,255,.14); border-radius: 50%; content: ""; }
-        .story::before { right: -125px; bottom: -125px; width: 370px; height: 370px; box-shadow: 0 0 0 32px rgba(255,255,255,.035), 0 0 0 64px rgba(255,255,255,.035); }
-        .story::after { top: -75px; right: -75px; width: 180px; height: 180px; border-color: rgba(239,133,94,.3); }
-        .eyebrow { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; color: #9bd5c8; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-        .eyebrow::before { width: 24px; height: 2px; background: var(--orange); content: ""; }
-        h1 { position: relative; z-index: 1; max-width: 430px; margin: 25px 0 19px; font: 600 clamp(40px, 5.4vw, 70px)/.96 "Space Grotesk", sans-serif; letter-spacing: -.075em; }
-        .story-copy { position: relative; z-index: 1; max-width: 350px; margin: 0; color: #c5e2dc; font-size: 15px; line-height: 1.7; }
-        .mini-note { position: relative; z-index: 1; display: flex; align-items: center; gap: 13px; max-width: 320px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.18); color: #c5e2dc; font-size: 12px; line-height: 1.5; }
-        .mini-icon { display: grid; flex: 0 0 38px; place-items: center; width: 38px; height: 38px; border-radius: 13px; color: var(--teal-dark); background: var(--orange); font-size: 18px; }
-        .check { padding: clamp(29px, 5vw, 63px); background: rgba(255,255,255,.78); }
-        .check-head { display: flex; align-items: start; justify-content: space-between; gap: 18px; margin-bottom: 34px; }
-        h2 { margin: 0 0 7px; font: 600 27px "Space Grotesk", sans-serif; letter-spacing: -.045em; }
-        .check-head p { margin: 0; color: var(--muted); font-size: 13px; }
-        .counter { padding: 8px 11px; border-radius: 9px; color: var(--teal); background: var(--mint); font-size: 11px; font-weight: 700; white-space: nowrap; }
-        .field { margin-bottom: 29px; }
-        .label-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 11px; font-size: 13px; font-weight: 700; }
-        .hint { color: var(--muted); font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
-        .temp-box { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--cream); transition: .2s ease; }
-        .temp-box:focus-within { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(13,113,109,.1); }
-        .temp-box input { width: 100%; border: 0; outline: 0; color: var(--teal-dark); background: transparent; font: 700 29px "Space Grotesk", sans-serif; }
-        .temp-box span { color: var(--muted); font-size: 13px; }
-        .symptoms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .symptom { position: relative; }
-        .symptom input { position: absolute; opacity: 0; }
-        .symptom label { display: flex; min-height: 91px; flex-direction: column; justify-content: space-between; padding: 13px; border: 1px solid var(--line); border-radius: 16px; color: var(--muted); background: white; cursor: pointer; transition: .2s ease; }
-        .symptom label:hover { transform: translateY(-2px); border-color: #9ccfc2; }
-        .symptom input:checked + label { border-color: var(--teal); color: var(--ink); background: var(--mint); box-shadow: inset 0 0 0 1px var(--teal); }
-        .symptom-mark { color: var(--teal); font-size: 20px; }
-        .symptom-name { font-size: 12px; font-weight: 700; }
-        .submit { display: flex; width: 100%; align-items: center; justify-content: center; gap: 11px; margin-top: 7px; padding: 16px 20px; border: 0; border-radius: 14px; color: white; background: var(--orange); box-shadow: 0 11px 23px rgba(239,133,94,.26); cursor: pointer; font: 700 14px "DM Sans", sans-serif; transition: .2s ease; }
-        .submit:hover { background: #d86f4e; transform: translateY(-2px); }
-        .submit span { font-size: 19px; line-height: 0; }
-        .result { display: flex; align-items: center; gap: 12px; margin-top: 24px; padding: 14px; border: 1px solid #b9decf; border-radius: 14px; color: var(--teal-dark); background: #effaf5; font-size: 14px; font-weight: 700; }
-        .result.alert { border-color: #f3c0ad; color: #ad4938; background: #fff2ec; }
-        .result-icon { display: grid; flex: 0 0 30px; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #c8eadc; }
-        .alert .result-icon { background: var(--orange-soft); }
-        .fine-print { margin: 16px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; text-align: center; }
-        @media (max-width: 760px) { .page { width: min(100% - 24px, 560px); padding-top: 17px; } .nav { margin-bottom: 17px; } .board { display: block; } .story { min-height: 340px; padding: 35px 30px; } .mini-note { margin-top: 44px; } .check { padding: 32px 24px; } }
-        @media (max-width: 440px) { .privacy { display: none; } .symptoms { grid-template-columns: 1fr; } .symptom label { min-height: 62px; flex-direction: row; align-items: center; gap: 12px; } }
-    </style>
+        .form-panel {
+            padding: 35px;
+        }
+    }
+
+    @media (max-width: 550px) {
+
+        .navbar,
+        .container {
+            width: calc(100% - 24px);
+        }
+
+        .hero h1 {
+            font-size: 38px;
+        }
+
+        .info-panel {
+            padding: 30px;
+        }
+
+        .form-panel {
+            padding: 25px 20px;
+        }
+
+        .symptoms {
+            grid-template-columns: 1fr;
+        }
+
+        .symptom label {
+            min-height: 62px;
+
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand {
+            font-size: 18px;
+        }
+    }
+
+</style>
+```
+
 </head>
+
 <body>
-    <main class="page">
-        <header class="nav">
-            <div class="logo"><span class="logo-mark" aria-hidden="true">+</span> feversense</div>
-            <div class="privacy"><span class="privacy-dot"></span> Private health check</div>
-        </header>
 
-        <section class="board">
-            <div class="story">
+```
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="brand">
+        <div class="brand-icon">+</div>
+        FeverSense
+    </div>
+
+    <a href="/logout" class="logout">
+        Logout
+    </a>
+
+</nav>
+
+
+<!-- MAIN CONTENT -->
+
+<main class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <span class="badge">
+            AI-Powered Health Screening
+        </span>
+
+        <h1>
+            Understand your symptoms.<br>
+            <span>Check your fever.</span>
+        </h1>
+
+        <p>
+            Enter your temperature and symptoms below.
+            Our machine learning model will provide a quick
+            fever screening result.
+        </p>
+
+    </section>
+
+
+    <!-- MAIN CARD -->
+
+    <section class="main-card">
+
+
+        <!-- LEFT INFORMATION -->
+
+        <div class="info-panel">
+
+            <div class="medical-icon">
+                🌡️
+            </div>
+
+            <h2>
+                Take a quick<br>
+                health check.
+            </h2>
+
+            <p>
+                FeverSense uses the information you provide
+                to generate a simple fever prediction.
+                The process takes only a few seconds.
+            </p>
+
+
+            <ul class="feature-list">
+
+                <li>
+                    <span class="tick">✓</span>
+                    Temperature-based screening
+                </li>
+
+                <li>
+                    <span class="tick">✓</span>
+                    Symptom-based prediction
+                </li>
+
+                <li>
+                    <span class="tick">✓</span>
+                    Quick machine learning result
+                </li>
+
+                <li>
+                    <span class="tick">✓</span>
+                    Simple and easy to use
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <div class="form-panel">
+
+            <div class="form-title">
+
                 <div>
-                    <div class="eyebrow">A moment for you</div>
-                    <h1>Check in with your body.</h1>
-                    <p class="story-copy">Use a few simple signals to get a quick fever screening. It takes less than a minute and keeps your focus on how you feel.</p>
+
+                    <h2>
+                        Health information
+                    </h2>
+
+                    <p>
+                        Enter your current symptoms
+                    </p>
+
                 </div>
-                <div class="mini-note"><span class="mini-icon" aria-hidden="true">✦</span><span>Small observations can help you make a clearer next decision.</span></div>
+
+                <span class="step">
+                    01 / 01
+                </span>
+
             </div>
 
-            <div class="check">
-                <div class="check-head"><div><h2>How are you feeling?</h2><p>Enter your current observations below.</p></div><span class="counter">01 / 01</span></div>
-                <form action="/predict" method="POST">
-                    <div class="field">
-                        <div class="label-row"><label for="temperature">Body temperature</label><span class="hint">Fahrenheit</span></div>
-                        <div class="temp-box"><input id="temperature" type="number" step="0.1" name="temperature" placeholder="98.6" min="90" max="110" required><span>°F</span></div>
+
+            <form action="/predict" method="POST">
+
+
+                <!-- TEMPERATURE -->
+
+                <div class="field">
+
+                    <div class="field-title">
+
+                        <label for="temperature">
+                            Body Temperature
+                        </label>
+
+                        <span class="hint">
+                            Fahrenheit
+                        </span>
+
                     </div>
-                    <div class="field">
-                        <div class="label-row"><span>Symptoms present</span><span class="hint">Choose one for each</span></div>
-                        <div class="symptoms">
-                            <div class="symptom"><input id="cough-yes" type="radio" name="cough" value="1" required><label for="cough-yes"><span class="symptom-mark">◌</span><span class="symptom-name">Cough</span></label></div>
-                            <div class="symptom"><input id="cough-no" type="radio" name="cough" value="0"><label for="cough-no"><span class="symptom-mark">◌</span><span class="symptom-name">No cough</span></label></div>
-                            <div class="symptom"><input id="headache-yes" type="radio" name="headache" value="1" required><label for="headache-yes"><span class="symptom-mark">◒</span><span class="symptom-name">Headache</span></label></div>
-                            <div class="symptom"><input id="headache-no" type="radio" name="headache" value="0"><label for="headache-no"><span class="symptom-mark">◒</span><span class="symptom-name">No headache</span></label></div>
-                            <div class="symptom"><input id="pain-yes" type="radio" name="body_pain" value="1" required><label for="pain-yes"><span class="symptom-mark">⌁</span><span class="symptom-name">Body pain</span></label></div>
-                            <div class="symptom"><input id="pain-no" type="radio" name="body_pain" value="0"><label for="pain-no"><span class="symptom-mark">⌁</span><span class="symptom-name">No body pain</span></label></div>
+
+                    <div class="temperature-box">
+
+                        <input
+                            id="temperature"
+                            type="number"
+                            name="temperature"
+                            step="0.1"
+                            min="90"
+                            max="110"
+                            placeholder="90"
+                            required
+                        >
+
+                        <span>
+                            °F
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SYMPTOMS -->
+
+                <div class="field">
+
+                    <div class="field-title">
+
+                        <span>
+                            Cough
+                        </span>
+
+                        <span class="hint">
+                            Select one
+                        </span>
+
+                    </div>
+
+                    <div class="symptoms">
+
+                        <div class="symptom">
+
+                            <input
+                                id="cough-yes"
+                                type="radio"
+                                name="cough"
+                                value="1"
+                                required
+                            >
+
+                            <label for="cough-yes">
+
+                                <span class="symptom-icon">
+                                    😷
+                                </span>
+
+                                <span class="symptom-name">
+                                    Yes, I have cough
+                                </span>
+
+                            </label>
+
                         </div>
+
+
+                        <div class="symptom">
+
+                            <input
+                                id="cough-no"
+                                type="radio"
+                                name="cough"
+                                value="0"
+                            >
+
+                            <label for="cough-no">
+
+                                <span class="symptom-icon">
+                                    ✓
+                                </span>
+
+                                <span class="symptom-name">
+                                    No cough
+                                </span>
+
+                            </label>
+
+                        </div>
+
                     </div>
-                    <button class="submit" type="submit">Run assessment <span aria-hidden="true">→</span></button>
-                </form>
-                {% if prediction %}
-                <div class="result {% if prediction == 'Fever Detected' %}alert{% endif %}" role="status"><span class="result-icon" aria-hidden="true">{% if prediction == 'Fever Detected' %}!{% else %}✓{% endif %}</span><span>{{ prediction }}</span></div>
-                {% endif %}
-                <p class="fine-print">This model is a screening aid, not a medical diagnosis.</p>
+
+                </div>
+
+
+                <!-- HEADACHE -->
+
+                <div class="field">
+
+                    <div class="field-title">
+
+                        <span>
+                            Headache
+                        </span>
+
+                        <span class="hint">
+                            Select one
+                        </span>
+
+                    </div>
+
+                    <div class="symptoms">
+
+                        <div class="symptom">
+
+                            <input
+                                id="headache-yes"
+                                type="radio"
+                                name="headache"
+                                value="1"
+                                required
+                            >
+
+                            <label for="headache-yes">
+
+                                <span class="symptom-icon">
+                                    🤕
+                                </span>
+
+                                <span class="symptom-name">
+                                    Yes, headache
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="symptom">
+
+                            <input
+                                id="headache-no"
+                                type="radio"
+                                name="headache"
+                                value="0"
+                            >
+
+                            <label for="headache-no">
+
+                                <span class="symptom-icon">
+                                    ✓
+                                </span>
+
+                                <span class="symptom-name">
+                                    No headache
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BODY PAIN -->
+
+                <div class="field">
+
+                    <div class="field-title">
+
+                        <span>
+                            Body Pain
+                        </span>
+
+                        <span class="hint">
+                            Select one
+                        </span>
+
+                    </div>
+
+                    <div class="symptoms">
+
+                        <div class="symptom">
+
+                            <input
+                                id="pain-yes"
+                                type="radio"
+                                name="body_pain"
+                                value="1"
+                                required
+                            >
+
+                            <label for="pain-yes">
+
+                                <span class="symptom-icon">
+                                    💪
+                                </span>
+
+                                <span class="symptom-name">
+                                    Yes, body pain
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="symptom">
+
+                            <input
+                                id="pain-no"
+                                type="radio"
+                                name="body_pain"
+                                value="0"
+                            >
+
+                            <label for="pain-no">
+
+                                <span class="symptom-icon">
+                                    ✓
+                                </span>
+
+                                <span class="symptom-name">
+                                    No body pain
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="predict-btn"
+                >
+
+                    Predict Fever
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <!-- RESULT -->
+
+            {% if prediction %}
+
+            <div
+                class="result {% if prediction == 'Fever Detected' %}alert{% endif %}"
+                role="status"
+            >
+
+                <div class="result-icon">
+
+                    {% if prediction == "Fever Detected" %}
+                        !
+                    {% else %}
+                        ✓
+                    {% endif %}
+
+                </div>
+
+                <span>
+                    {{ prediction }}
+                </span>
+
             </div>
-        </section>
-    </main>
+
+            {% endif %}
+
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <p>
+            FeverSense is a machine-learning screening aid
+            and is not a substitute for professional medical advice.
+        </p>
+
+    </div>
+
+</main>
+```
+
 </body>
 </html>

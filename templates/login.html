@@ -1,0 +1,832 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FeverSense | Login</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.95), transparent 25%),
+                radial-gradient(circle at 90% 15%, rgba(190,245,245,0.9), transparent 30%),
+                linear-gradient(135deg, #f7fdff, #dff8f8, #b7eeee);
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ================= BACKGROUND WAVES ================= */
+
+        body::before {
+            content: "";
+            position: absolute;
+
+            width: 130%;
+            height: 330px;
+
+            left: -15%;
+            bottom: -220px;
+
+            background: rgba(77, 190, 210, 0.35);
+
+            border-radius: 50% 50% 0 0;
+
+            transform: rotate(-6deg);
+
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+
+            width: 130%;
+            height: 270px;
+
+            left: -15%;
+            bottom: -200px;
+
+            background: rgba(38, 160, 185, 0.25);
+
+            border-radius: 50% 50% 0 0;
+
+            transform: rotate(6deg);
+
+            z-index: 0;
+        }
+
+        /* ================= MEDICAL SYMBOLS ================= */
+
+        .symbol {
+            position: absolute;
+            color: rgba(40, 170, 185, 0.18);
+            font-weight: bold;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .heart {
+            left: 5%;
+            top: 20%;
+            font-size: 150px;
+        }
+
+        .plus1 {
+            left: 22%;
+            top: 12%;
+            font-size: 70px;
+        }
+
+        .plus2 {
+            right: 8%;
+            top: 18%;
+            font-size: 90px;
+        }
+
+        .plus3 {
+            left: 8%;
+            bottom: 15%;
+            font-size: 80px;
+        }
+
+        .thermometer {
+            right: 7%;
+            top: 40%;
+            font-size: 130px;
+            transform: rotate(-15deg);
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            position: relative;
+            z-index: 3;
+
+            width: 100%;
+            padding: 22px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            color: #14556b;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+
+            background: #299d9b;
+            color: white;
+
+            border-radius: 12px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 25px;
+        }
+
+        .header-text {
+            color: #527d87;
+            font-size: 13px;
+        }
+
+        /* ================= MAIN PAGE ================= */
+
+        .page {
+            position: relative;
+            z-index: 2;
+
+            min-height: calc(100vh - 90px);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 80px;
+
+            padding: 20px 50px 80px;
+        }
+
+        /* ================= LEFT CONTENT ================= */
+
+        .left-content {
+            width: 360px;
+        }
+
+        .small-title {
+            color: #299d9b;
+            font-size: 13px;
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 12px;
+        }
+
+        .left-content h2 {
+            color: #17445a;
+
+            font-size: 42px;
+
+            line-height: 1.1;
+
+            margin: 0 0 18px;
+        }
+
+        .left-content h2 span {
+            color: #299d9b;
+        }
+
+        .description {
+            color: #66818a;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            margin-bottom: 25px;
+        }
+
+        /* ================= FEATURE CARDS ================= */
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            background: rgba(255,255,255,0.65);
+
+            padding: 12px 15px;
+
+            border-radius: 14px;
+
+            width: 300px;
+        }
+
+        .feature-icon {
+            width: 38px;
+            height: 38px;
+
+            background: #d7f4f3;
+
+            color: #299d9b;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        .feature h4 {
+            margin: 0 0 3px;
+
+            color: #17445a;
+
+            font-size: 14px;
+        }
+
+        .feature p {
+            margin: 0;
+
+            color: #78929a;
+
+            font-size: 11px;
+        }
+
+        /* ================= LOGIN CONTAINER ================= */
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        /* ================= LOGIN BOX ================= */
+
+        .login-box {
+            background: rgba(255,255,255,0.97);
+
+            border-radius: 25px;
+
+            padding: 40px;
+
+            box-shadow:
+                0 20px 60px rgba(34, 100, 110, 0.18);
+
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        /* ================= LOGO ================= */
+
+        .logo {
+            width: 55px;
+            height: 55px;
+
+            background: #299d9b;
+
+            color: white;
+
+            border-radius: 15px 15px 15px 5px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            font-size: 30px;
+            font-weight: bold;
+
+            margin: 0 auto 15px;
+        }
+
+        /* ================= TITLE ================= */
+
+        h1 {
+            text-align: center;
+
+            color: #142d3d;
+
+            margin: 0;
+
+            font-size: 30px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #70818a;
+
+            font-size: 14px;
+
+            margin: 10px 0 28px;
+        }
+
+        /* ================= INPUT ================= */
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            color: #142d3d;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border: 1px solid #dce8e4;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            background: #fbfdfd;
+        }
+
+        input:focus {
+            border-color: #299d9b;
+
+            box-shadow:
+                0 0 0 3px rgba(41,157,155,0.1);
+        }
+
+        /* ================= LOGIN BUTTON ================= */
+
+        .login-btn {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #ef855e;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+        }
+
+        .login-btn:hover {
+            background: #d96f4e;
+        }
+
+        /* ================= DEMO LOGIN ================= */
+
+        .demo {
+            background: #eaf8f8;
+
+            color: #247c80;
+
+            padding: 13px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            margin-top: 18px;
+        }
+
+        .demo p {
+            margin: 5px;
+        }
+
+        .demo strong {
+            color: #17445a;
+        }
+
+        /* ================= ERROR ================= */
+
+        .error {
+            background: #fff2ec;
+
+            color: #ad4938;
+
+            border: 1px solid #f3c0ad;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            margin-bottom: 20px;
+        }
+
+        /* ================= INFO ================= */
+
+        .info {
+            text-align: center;
+
+            color: #70818a;
+
+            font-size: 11px;
+
+            margin-top: 20px;
+        }
+
+        /* ================= BOTTOM TEXT ================= */
+
+        .bottom-text {
+            position: absolute;
+
+            bottom: 20px;
+
+            left: 0;
+
+            width: 100%;
+
+            text-align: center;
+
+            color: rgba(50, 110, 120, 0.65);
+
+            font-size: 12px;
+
+            z-index: 3;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 900px) {
+
+            body {
+                overflow: auto;
+            }
+
+            .page {
+                flex-direction: column;
+
+                gap: 30px;
+
+                padding: 20px;
+            }
+
+            .left-content {
+                width: 100%;
+
+                max-width: 420px;
+
+                text-align: center;
+            }
+
+            .left-content h2 {
+                font-size: 32px;
+            }
+
+            .features {
+                align-items: center;
+            }
+
+            .header {
+                padding: 18px 25px;
+            }
+
+            .header-text {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .login-box {
+                padding: 30px 25px;
+            }
+
+            .heart,
+            .thermometer {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= BACKGROUND SYMBOLS ================= -->
+
+    <div class="symbol heart">
+        ♥
+    </div>
+
+    <div class="symbol plus1">
+        +
+    </div>
+
+    <div class="symbol plus2">
+        +
+    </div>
+
+    <div class="symbol plus3">
+        +
+    </div>
+
+    <div class="symbol thermometer">
+        ♨
+    </div>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="header">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                +
+            </div>
+
+            FeverSense
+
+        </div>
+
+        <div class="header-text">
+            Smart • Simple • Health Awareness
+        </div>
+
+    </div>
+
+
+    <!-- ================= MAIN PAGE ================= -->
+
+    <div class="page">
+
+
+        <!-- ================= LEFT SIDE CONTENT ================= -->
+
+        <div class="left-content">
+
+            <div class="small-title">
+                A MOMENT FOR YOU
+            </div>
+
+            <h2>
+                Check in with
+                <span>your body.</span>
+            </h2>
+
+            <p class="description">
+
+                FeverSense helps you perform a quick fever
+                screening using simple health observations.
+                Enter your details and get an instant
+                screening result.
+
+            </p>
+
+
+            <!-- FEATURE 1 -->
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ♥
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Quick Screening
+                        </h4>
+
+                        <p>
+                            Get a result in just a few moments.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURE 2 -->
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        +
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Simple & Easy
+                        </h4>
+
+                        <p>
+                            Enter basic health observations.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURE 3 -->
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Health Awareness
+                        </h4>
+
+                        <p>
+                            Understand your current symptoms.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= LOGIN BOX ================= -->
+
+        <div class="login-container">
+
+            <div class="login-box">
+
+
+                <!-- LOGO -->
+
+                <div class="logo">
+                    +
+                </div>
+
+
+                <!-- TITLE -->
+
+                <h1>
+                    FeverSense
+                </h1>
+
+
+                <p class="subtitle">
+                    Login to access your fever screening
+                </p>
+
+
+                <!-- ERROR -->
+
+                {% if error %}
+
+                <div class="error">
+                    {{ error }}
+                </div>
+
+                {% endif %}
+
+
+                <!-- LOGIN FORM -->
+
+                <form action="/login" method="POST">
+
+
+                    <!-- USERNAME -->
+
+                    <div class="input-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter username"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="input-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- LOGIN BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="login-btn"
+                    >
+                        Login →
+                    </button>
+
+
+                </form>
+
+
+                <!-- DEMO LOGIN DETAILS -->
+
+                <div class="demo">
+
+                    <p>
+                        Demo Username:
+                        <strong>admin</strong>
+                    </p>
+
+                    <p>
+                        Demo Password:
+                        <strong>1234</strong>
+                    </p>
+
+                </div>
+
+
+                <!-- DISCLAIMER -->
+
+                <p class="info">
+
+                    FeverSense is a screening aid,
+                    not a medical diagnosis.
+
+                </p>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= BOTTOM TEXT ================= -->
+
+    <div class="bottom-text">
+
+        FeverSense • Personal Health Screening • Stay Aware of Your Health
+
+    </div>
+
+
+</body>
+
+</html>
